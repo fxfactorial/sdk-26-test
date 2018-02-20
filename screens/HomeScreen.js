@@ -8,11 +8,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { WebBrowser } from 'expo';
+import { WebBrowser, Localization, Permissions } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
+  state = { permissionsResult: '' };
+
+  doShowPermissions = async () => {
+    const r = await Permissions.askAsync(Permissions.CONTACTS);
+  };
+
   static navigationOptions = {
     header: null,
   };
@@ -41,8 +47,9 @@ export default class HomeScreen extends React.Component {
               <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
             </View>
 
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
+            <Text style={styles.getStartedText} onPress={this.doShowPermissions}>
+              Click this text to get the Permissions API to show in Russian if the phone is set to
+              Russian
             </Text>
           </View>
 
@@ -141,6 +148,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   getStartedText: {
+    borderWidth: 1,
     fontSize: 17,
     color: 'rgba(96,100,109, 1)',
     lineHeight: 24,
