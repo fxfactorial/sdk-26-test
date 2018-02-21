@@ -13,10 +13,11 @@ import { WebBrowser, Localization, Permissions } from 'expo';
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
-  state = { permissionsResult: '' };
+  state = { permissionsResult: {} };
 
   doShowPermissions = async () => {
     const r = await Permissions.askAsync(Permissions.CONTACTS);
+    this.setState(() => ({ permissionsResult: r }));
   };
 
   static navigationOptions = {
@@ -44,7 +45,9 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.getStartedText}>Get started by opening</Text>
 
             <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
+              <MonoText style={styles.codeHighlightText}>
+                {JSON.stringify(this.state.permissionResult, null, 2)}
+              </MonoText>
             </View>
 
             <Text style={styles.getStartedText} onPress={this.doShowPermissions}>
